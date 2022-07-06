@@ -9,4 +9,14 @@ Then Install trimesh and skeletor packages.
 Point cloud Regression script takes in directories of folders with XYZ files and reads them into a point cloud PyG Dataset.
 
 
+![image](https://user-images.githubusercontent.com/46079516/177441575-77a14c5c-9eef-46b9-857c-fc6727bc29e3.png)
+![image](https://user-images.githubusercontent.com/46079516/177441609-d9089f68-2ea5-41ad-b720-2b06fa0bcb09.png)
+
+![image](https://user-images.githubusercontent.com/46079516/177441693-dd1a6a5b-df69-4c20-9775-0250bb10fff5.png)
+
+![image](https://user-images.githubusercontent.com/46079516/177441654-3675a820-445a-4883-bdf2-0758ee386b1c.png)
+
+
 Skeletor Skeleton Regression script takes in directories of .stl mesh files and reads them into a point cloud PyG Dataset. Where skeletor edges = pyg edge_index and skeletor vertices = pyg.pos.
+
+![image](https://user-images.githubusercontent.com/46079516/177441522-cfd246c1-bfb7-4041-9d55-6d64a0705fe9.png)
