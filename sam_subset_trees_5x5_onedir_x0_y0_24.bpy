@@ -1,0 +1,75 @@
+# cd "C:\Program Files\Blender Foundation\Blender 2.90"
+# .\blender.exe --background --python "D:\\Blender_random\\sam_subset_trees_5x5_onedir_x0_y0_24.bpy"
+
+import bpy
+import os
+# folder containing blend files (only one scene in my case)
+my_dir = "/media/mercierc/Q/NS-TIP/Blender/simulate_grove_10_5x5" 
+# all blend files in directory
+blendfiles = [f for f in  os.listdir(my_dir) if f.split(sep=".")[-1] == "blend"]
+def get_object_names(assets_path):
+    names = []
+    with bpy.data.libraries.load(assets_path) as (data_from, data_to):
+        names = [name for name in data_from.objects]
+    return names
+
+for file in blendfiles:
+    # prep to make a folder based on blend file name
+    print("file name", file)
+    newfolder = os.path.join(my_dir, "Output_X0_Y0") # os.path.join(my_dir, file.replace(".", "-").replace("-blend", ""))
+    print("new folder name", newfolder)
+    filepath = os.path.join(my_dir, file)
+    # make a folder based on blend file name to store new files
+    if not os.path.isdir(newfolder):
+        print("making Dir", newfolder)
+        os.mkdir(newfolder)
+    # get each object (tree + cube, camera etc) from blend file
+    objs = get_object_names(filepath)
+    i = 0
+    for obj_name in objs:
+        # hardcoded in Pine here for now
+        if "Pine" in obj_name:
+            if '0' not in obj_name: # skip tree 0 because we have tree 13 also at x=0, y=0
+                continue
+            else:
+                id = int(obj_name.split(".")[-1])
+                if id in set([1,2,3,4,5,9,10,14,15,19,20,21,22,23,24]):
+                    continue
+                else:
+                    print(obj_name, id)
+                    # open the blender scene containing trees
+                    bpy.ops.wm.open_mainfile(filepath=filepath)
+                    objs = bpy.data.objects #
+                    for obj in bpy.data.objects:
+                        if obj.name == obj_name:
+                            print("KEEP")
+                        else:
+                            obj.user_clear # clear this object of users
+                            objs.remove(objs[obj.name], do_unlink=True)  # delete the object from the data block
+                    obj = bpy.context.scene.objects[obj_name]
+                    # move tree to origin
+                    obj.location[0] = 0
+                    obj.location[1] = 0
+                    bpy.context.view_layer.objects.active = obj # make sure tree is active in blender
+                    # Set an appropriate file name based on treename from scene
+                    new_name = file.replace(".", "-").replace("-blend", "") + "_" + obj_name.replace(".", "-").replace(" - ", "_") + ".blend"
+                    bpy.ops.wm.save_as_mainfile(filepath=os.path.join(newfolder, new_name))
+                    # open the file again as recommended (don't know why)
+                    new_name = file.replace(".", "-").replace("-blend", "") + "_" + obj_name.replace(".", "-").replace(" - ", "_") + ".stl" # match collection name with object name.
+                    print("saving Mesh as", new_name)
+                    bpy.ops.export_mesh.stl(filepath=os.path.join(newfolder, new_name), check_existing=True, filter_glob='*.stl', use_selection=False, global_scale=1.0, use_scene_unit=False, ascii=False, use_mesh_modifiers=True, batch_mode='OFF', axis_forward='Y', axis_up='Z')
+                    # new_name = file.replace(".", "-").replace("-blend", "") + "_" + obj_name.replace(".", "-") + ".blend"
+                    # bpy.ops.wm.open_mainfile(filepath=os.path.join(newfolder, new_name))
+                    i += 1
+        else:
+            continue # if not a tree (e.g location arrow, cube/ground, camera). Then skip
+
+
+# old code for calling bpy script from command line and shifting tree location (sam_origin.bpy)
+# sam.bpy
+# import bpy
+# bpy.ops.wm.open_mainfile(filepath="D:\\Blender_random\\sam9.blend")
+# obj = bpy.context.scene.objects["Conifer - Grand Fir.001"]
+# obj.location[0] = 0
+# obj.location[1] = 0
+# bpy.ops.wm.save_as_mainfile(filepath="D:\\Blender_random\\sam100.blend")
