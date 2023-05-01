@@ -1,0 +1,108 @@
+# Note "pyg" environment has skeletor
+
+## ACTUALLY THE R2D2 installation!
+conda create -n pyg0 python=3.9
+# Didnt install pip
+conda activate pyg0
+conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.6 -c pytorch  -c conda-forge
+conda install pyg -c pyg
+# pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.12.0+cu116.html
+
+
+conda install -c conda-forge matplotlib
+
+conda install ipykernel
+ipython kernel install --user --name=pyg0 # name should be your convda env name!
+conda install -c anaconda pandas
+conda install -c conda-forge scikit-learn
+
+jupyter notebook --no-browser --port=8067
+
+# Do I need to CD to treesim?
+
+# ssh from local to remote jupyter 
+ssh -N -L 8067:localhost:8067 davidsos@10.10.36.163
+
+
+## Burwood new installation: 
+# davidsos@C26846
+
+conda create -n pygbwd python=3.9
+# Didnt install pip
+conda activate pygbwd
+conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.6 -c pytorch  -c conda-forge
+# initial frozen solve fails? But retry works!!
+
+conda install pyg -c pyg
+
+conda install -c conda-forge matplotlib
+conda install -c anaconda pandas
+conda install -c conda-forge scikit-learn
+
+conda install ipykernel
+ipython kernel install --user --name=pygbwd # name should be your convda env name!
+
+# in base env:
+conda install nb_conda_kernels
+# conda activate pygbwd
+
+jupyter notebook --no-browser --port=8071
+
+# Do I need to CD to treesim?
+
+# ssh from local to remote jupyter 
+ssh -N -L 8071:localhost:8071 davidsos@C26846
+
+pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.12.0+cu116.html
+
+# fails: pip install torch-scatter -f https://data.pyg.org/whl/torch-1.12.0+cu116.html
+
+# Please install via --no-index option for later PyTorch versions:
+# pip install --no-index torch-scatter -f https://pytorch-geometric.com/whl/torch-1.8.1+cu111.html
+# pip install --no-index torch-sparse -f https://pytorch-geometric.com/whl/torch-1.8.1+cu111.html
+# pip install --no-index torch-cluster -f https://pytorch-geometric.com/whl/torch-1.8.1+cu111.html
+# pip install --no-index torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.8.1+cu111.html
+
+# pip install torch-scatter==2.0.8 -f https://data.pyg.org/whl/torch-1.12.0+cu116.html
+
+# SSH into R2D2 and copy data to new burwood
+scp -r /treesim/simset_Feb16_23_grove11/individual_trees/Grove10x10x10_skel_npy davidsos@C26846:"/home/davidsos/Documents"
+
+
+## Trying PyTorch 2.0 with CUDA 118
+conda create -n pyg python=3.9
+# Didnt install pip
+conda activate pyg
+
+# conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.6 -c pytorch  -c conda-forge
+# initial frozen solve fails? But retry works!!
+
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+
+conda install pyg -c pyg
+pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.0.0+cu118.html
+
+# pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-1.12.0+cu116.html
+
+conda install -c conda-forge matplotlib
+conda install -c anaconda pandas
+conda install -c conda-forge scikit-learn
+
+conda install ipykernel
+ipython kernel install --user --name=pyg0 # name should be your convda env name!
+
+# in base env:
+# conda install nb_conda_kernels
+# conda activate pygbwd
+
+# 8072 for PyTorch 2.0
+jupyter notebook --no-browser --port=8072
+
+# Do I need to CD to treesim?
+
+# ssh from local to remote jupyter 
+ssh -N -L 8072:localhost:8072 davidsos@C26846
+
+
+
+
