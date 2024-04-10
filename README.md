@@ -6,7 +6,7 @@ I mainly just use github to backup my code.
 Install pytorch cuda that works with your conda environment. Also install pytorch_geometric.
 Then Install trimesh and skeletor packages.
 
-Point cloud Regression script takes in directories of folders with XYZ files and reads them into a point cloud PyG Dataset.
+Point cloud Regression script takes in directories of folders with XYZ files and reads them into a point cloud PyG Dataset. It then trains a multitask regression network to estimate multiple continuos tree parameters. 
 
 
 ![image](https://user-images.githubusercontent.com/46079516/177441575-77a14c5c-9eef-46b9-857c-fc6727bc29e3.png)
